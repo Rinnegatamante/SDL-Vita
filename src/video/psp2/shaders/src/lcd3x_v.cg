@@ -10,16 +10,15 @@
 
 struct input
 {
-    float2 video_size;
-    float2 texture_size;
-    float2 output_size;
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
 };
 
 struct out_vertex
 {
    float4 vPosition : POSITION;
    float2 vTexcoord : TEXCOORD0;
-   float2 omega : TEXCOORD1;
 };
 
 void main
@@ -33,5 +32,4 @@ void main
 {
    co.vPosition = mul(aPosition, wvp);
    co.vTexcoord = aTexcoord;
-   co.omega = 3.141592654 * 2 * IN.texture_size;
 }

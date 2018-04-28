@@ -104,7 +104,7 @@ struct out_vertex {
 /*    FRAGMENT SHADER    */
 float4 main
 (
-	in out_vertex co, 
+	out_vertex co, 
 	uniform sampler2D s0 : TEXUNIT0, 
 	uniform input IN2
 ) : COLOR
