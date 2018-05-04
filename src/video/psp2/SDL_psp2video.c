@@ -427,7 +427,7 @@ static int PSP2_FlipHWSurface(_THIS, SDL_Surface *surface)
 // custom psp2 function for centering/scaling main screen surface (texture)
 void SDL_SetVideoModeScaling(int x, int y, float w, float h)
 {
-	SDL_Surface *surface = SDL_GetVideoSurface();
+	SDL_Surface *surface = SDL_VideoSurface;
 
 	if (surface != NULL && surface->hwdata != NULL)
 	{
