@@ -604,6 +604,7 @@ VITA_RenderPresent(SDL_Renderer *renderer)
 		return;
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 
 	data->displayListAvail = SDL_FALSE;
@@ -620,7 +621,8 @@ VITA_DestroyTexture(SDL_Renderer *renderer, SDL_Texture *texture)
 
 	if(vita_texture == 0)
 		return;
-
+	
+	vita2d_wait_rendering_done();
 	vita2d_free_texture(vita_texture->tex);
 	SDL_free(vita_texture);
 	texture->driverdata = NULL;
