@@ -167,7 +167,6 @@ int PSP2_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
 	vglInit(0x100000);
 	vglWaitVblankStart(vsync);
-	vglMapHeapMem();
 	
 	glEnable(GL_TEXTURE_2D);
 	glMatrixMode(GL_PROJECTION);
