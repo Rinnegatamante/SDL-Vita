@@ -165,7 +165,7 @@ float texture_size[2], output_size[2];
 
 int PSP2_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
-	vglInit(0x100000);
+	vglInitExtended(0x100000, 960, 544, 0x1800000, SCE_GXM_MULTISAMPLE_4X);
 	vglWaitVblankStart(vsync);
 	
 	glEnable(GL_TEXTURE_2D);
