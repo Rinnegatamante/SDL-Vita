@@ -67,6 +67,7 @@ typedef struct private_hwdata {
 } private_hwdata;
 
 static int vsync = 1;
+static unsigned int cur_fb = 0;
 
 /* Initialization/Query functions */
 static int PSP2_VideoInit(_THIS, SDL_PixelFormat *vformat);
@@ -385,7 +386,8 @@ static int PSP2_FlipHWSurface(_THIS, SDL_Surface *surface)
 	glBindTexture(GL_TEXTURE_2D, surface->hwdata->texture);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  
+
+	glBindFramebuffer(GL_FRAMEBUFFER, cur_fb);
     vglStartRendering();
 	glClear(GL_COLOR_BUFFER_BIT);
 	if (cur_shader != SDL_SHADER_NONE){
@@ -463,6 +465,11 @@ void SDL_SetVideoModeBilinear(int enable_bilinear)
 // custom psp2 function for rendering callback
 void SDL_SetVideoCallback(void (*cb)()){
     callback = cb;
+}
+
+// custom psp2 function for framebuffers usage
+void SDL_SetVideoFrameBuffer(unsigned int fb){
+    cur_fb = fb;
 }
 
 // custom psp2 function for vsync
