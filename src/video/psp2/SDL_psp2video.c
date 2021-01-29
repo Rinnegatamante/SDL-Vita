@@ -166,7 +166,7 @@ float texture_size[2], output_size[2];
 
 int PSP2_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
-	vglInitExtended(0x100000, 960, 544, 0x1800000, SCE_GXM_MULTISAMPLE_4X);
+	vglInitExtended(960, 544, 0x1800000, SCE_GXM_MULTISAMPLE_4X);
 	vglWaitVblankStart(vsync);
 	
 	glEnable(GL_TEXTURE_2D);
@@ -386,9 +386,8 @@ static int PSP2_FlipHWSurface(_THIS, SDL_Surface *surface)
 	glBindTexture(GL_TEXTURE_2D, surface->hwdata->texture);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, cur_fb);
-    vglStartRendering();
 	glClear(GL_COLOR_BUFFER_BIT);
 	if (cur_shader != SDL_SHADER_NONE){
 		float vertices[] = {
@@ -422,7 +421,7 @@ static int PSP2_FlipHWSurface(_THIS, SDL_Surface *surface)
 	vglDrawObjects(GL_TRIANGLE_FAN, 4, GL_TRUE);
 	glUseProgram(0);
     if (callback != NULL) callback();
-	vglStopRendering();
+	vglSwapBuffers();
 }
 
 // custom psp2 function for centering/scaling main screen surface (texture)
