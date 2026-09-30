@@ -36,7 +36,7 @@ OBJECTS = $(shell echo $(SOURCES) | sed -e 's,\.c,\.o,g')
 #	make -f Makefile.vita-test
 
 $(TARGET): $(CONFIG_H) $(OBJECTS)
-	$(AR) crv $@ $^
+	$(AR) crv $@ $(OBJECTS)
 	$(RANLIB) $@
 
 $(CONFIG_H):

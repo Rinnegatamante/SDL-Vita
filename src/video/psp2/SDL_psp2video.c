@@ -213,14 +213,14 @@ int PSP2_VideoInit(_THIS, SDL_PixelFormat *vformat)
 		shaders[i] = glCreateProgram();
 	}
     
-	glShaderBinary(1, &fs[SDL_SHADER_LCD3X], 0, lcd3x_f, size_lcd3x_f);
-	glShaderBinary(1, &fs[SDL_SHADER_SHARP_BILINEAR], 0, sharp_bilinear_f, size_sharp_bilinear_f);
-	glShaderBinary(1, &fs[SDL_SHADER_SHARP_BILINEAR_SIMPLE], 0, sharp_bilinear_simple_f, size_sharp_bilinear_simple_f);
-	glShaderBinary(1, &fs[SDL_SHADER_XBR_2X_FAST], 0, xbr_2x_fast_f, size_xbr_2x_fast_f);
-	glShaderBinary(1, &vs[SDL_SHADER_LCD3X], 0, lcd3x_v, size_lcd3x_v);
-	glShaderBinary(1, &vs[SDL_SHADER_SHARP_BILINEAR], 0, sharp_bilinear_v, size_sharp_bilinear_v);
-	glShaderBinary(1, &vs[SDL_SHADER_SHARP_BILINEAR_SIMPLE], 0, sharp_bilinear_simple_v, size_sharp_bilinear_simple_v);
-	glShaderBinary(1, &vs[SDL_SHADER_XBR_2X_FAST], 0, xbr_2x_fast_v, size_xbr_2x_fast_v);
+	vglShaderGxpBinary(1, &fs[SDL_SHADER_LCD3X], lcd3x_f, size_lcd3x_f);
+	vglShaderGxpBinary(1, &fs[SDL_SHADER_SHARP_BILINEAR], sharp_bilinear_f, size_sharp_bilinear_f);
+	vglShaderGxpBinary(1, &fs[SDL_SHADER_SHARP_BILINEAR_SIMPLE], sharp_bilinear_simple_f, size_sharp_bilinear_simple_f);
+	vglShaderGxpBinary(1, &fs[SDL_SHADER_XBR_2X_FAST], xbr_2x_fast_f, size_xbr_2x_fast_f);
+	vglShaderGxpBinary(1, &vs[SDL_SHADER_LCD3X], lcd3x_v, size_lcd3x_v);
+	vglShaderGxpBinary(1, &vs[SDL_SHADER_SHARP_BILINEAR], sharp_bilinear_v, size_sharp_bilinear_v);
+	vglShaderGxpBinary(1, &vs[SDL_SHADER_SHARP_BILINEAR_SIMPLE], sharp_bilinear_simple_v, size_sharp_bilinear_simple_v);
+	vglShaderGxpBinary(1, &vs[SDL_SHADER_XBR_2X_FAST], xbr_2x_fast_v, size_xbr_2x_fast_v);
 	
 	for (i = 0; i < 4; i++) {
 		glAttachShader(shaders[i], fs[i]);
@@ -418,7 +418,7 @@ static int PSP2_FlipHWSurface(_THIS, SDL_Surface *surface)
 		vglTexCoordPointerMapped(texcoords);
 	}
 	vglIndexPointerMapped(indices);
-	vglDrawObjects(GL_TRIANGLE_FAN, 4, GL_TRUE);
+	vglDrawObjects(GL_TRIANGLE_FAN, 4);
 	glUseProgram(0);
     if (callback != NULL) callback();
 	vglSwapBuffers(GL_FALSE);
@@ -512,7 +512,8 @@ void PSP2_VideoQuit(_THIS)
 	}
 	free(texcoords);
 	free(indices);
-	vglEnd();
+	/* Current vitaGL keeps its global context until process exit. */
+	glFinish();
 }
 
 VideoBootStrap PSP2_bootstrap = {
